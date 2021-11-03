@@ -1,6 +1,8 @@
 package game2048;
 
+import java.util.ArrayList;
 import java.util.Formatter;
+import java.util.List;
 import java.util.Observable;
 
 
@@ -137,7 +139,14 @@ public class Model extends Observable {
      *  Empty spaces are stored as null.
      * */
     public static boolean emptySpaceExists(Board b) {
-        // TODO: Fill in this function.
+        for (int i = 0; i < b.size(); i++) {
+            for (int j = 0; j < b.size(); j++) {
+                if (b.tile(i, j) == null) {
+                    System.out.println("title doesn't exist at position: " + b.tile(i, j));
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -147,7 +156,13 @@ public class Model extends Observable {
      * given a Tile object t, we get its value with t.value().
      */
     public static boolean maxTileExists(Board b) {
-        // TODO: Fill in this function.
+        for (int i = 0; i < b.size(); i++) {
+            for (int j = 0; j < b.size(); j++) {
+                if (!(b.tile(i, j) == null) && (b.tile(i, j).value() == MAX_PIECE)) {
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -158,8 +173,21 @@ public class Model extends Observable {
      * 2. There are two adjacent tiles with the same value.
      */
     public static boolean atLeastOneMoveExists(Board b) {
-        // TODO: Fill in this function.
-        return false;
+        if (emptySpaceExists(b)) {
+            return true;
+        }
+        else {
+            for (int row = 0; row < b.size(); row++) {
+                for (int col = 0; col < b.size(); col++) {
+                    if ((col < (row-1)) && (b.tile(row, col).value() == b.tile(row, col+1).value())) {
+                        return true;
+                    } else if ((row < (b.size()-1)) && (b.tile(row, col).value() == b.tile(row+1, col).value())) {
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
     }
 
 
